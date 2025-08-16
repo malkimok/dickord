@@ -9,8 +9,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var addr = flag.String("addr", ":1488", "http service address")
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -98,7 +96,6 @@ func (c *ClientConnection) writePump() {
 			w.Write(message)
 
 			// TODO: come up with separator to being able to send multiple messages in one datagram
-			// Add queued chat messages to the current websocket message.
 			// n := len(c.send)
 			// for _ = range len(c.send) {
 			// 	w.Write(<-c.send)
@@ -126,10 +123,13 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 	client := &ClientConnection{hub: hub, conn: conn, send: make(chan []byte, 256)}
 	client.hub.register <- client
+	log.Println("info: client connected and registered")
 
 	go client.writePump()
 	go client.readPump()
 }
+
+var addr = flag.String("addr", ":1488", "http service address")
 
 func RunHubServer() {
 	flag.Parse()
