@@ -1,4 +1,4 @@
-package hub
+package hub_client
 
 import (
 	"fmt"
