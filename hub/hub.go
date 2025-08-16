@@ -34,17 +34,17 @@ func newHub() *Hub {
 	}
 }
 
-func mixBytesFloat32(a, b []byte) []byte {
-	fa := byteToFloat(a)
-	fb := byteToFloat(b)
-	n := min(len(a), len(b))
-	out := make([]float32, n)
-	for i := range n {
-		v := fa[i] + fb[i]
-		out[i] = max(-1, min(v, 1))
-	}
-	return floatToByte(out)
-}
+// func mixBytesFloat32(a, b []byte) []byte {
+// 	fa := byteToFloat(a)
+// 	fb := byteToFloat(b)
+// 	n := min(len(a), len(b))
+// 	out := make([]float32, n)
+// 	for i := range n {
+// 		v := fa[i] + fb[i]
+// 		out[i] = max(-1, min(v, 1))
+// 	}
+// 	return floatToByte(out)
+// }
 
 // func (h *Hub) _run() {
 // 	frame_buff := make(chan BroadcastMessage, 100)
