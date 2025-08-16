@@ -129,16 +129,14 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	go client.readPump()
 }
 
-var addr = flag.String("addr", ":1488", "http service address")
-
-func RunHubServer() {
+func RunHubServer(addr string) {
 	flag.Parse()
 	hub := newHub()
 	go hub.run()
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})
-	if err := http.ListenAndServe(*addr, nil); err != nil {
+	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
