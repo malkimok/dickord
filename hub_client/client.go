@@ -123,12 +123,12 @@ func byteToFloat(bs []byte) []float32 {
 	return unsafe.Slice((*float32)(unsafe.Pointer(&bs[0])), len(bs)/4)
 }
 
-func RunClient() {
+func RunClient(server_ws string) {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGTERM, os.Kill)
 
 	dialer := websocket.Dialer{}
-	conn, _, err := dialer.Dial("ws://localhost:1488/ws", http.Header{})
+	conn, _, err := dialer.Dial(server_ws, http.Header{})
 	if err != nil {
 		log.Fatalln("error: can't dial a server:", err)
 	}
